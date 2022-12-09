@@ -1,6 +1,5 @@
 import assert from 'assert';
 import BIP32Factory from 'bip32';
-// TODO: Upgrade tiny-secp256k1 and use in react laconic-console app.
 import * as ecc from 'tiny-secp256k1';
 import * as bip39 from 'bip39';
 import canonicalStringify from 'canonical-json';
