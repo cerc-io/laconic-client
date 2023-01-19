@@ -25,7 +25,7 @@ const utilTests = () => {
     await registry.createBond({ denom: 'aphoton', amount: '1000000000' }, privateKey, fee);
 
     // Create watcher.
-    watcher = await getBaseConfig(WATCHER_YML_PATH);
+    watcher = await getBaseConfig(WATCHER_YML_PATH); //this overwrites version to 0.0.1
     const result = await registry.setRecord(
       {
         privateKey,

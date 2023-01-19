@@ -75,12 +75,10 @@ export const parseMsgSetRecordResponse = (data: string) => {
   const responseBytes = Buffer.from(data, 'hex')
 
   // TODO: Decode response using protobuf.
-  // const msgSetRecordResponse = nameserviceTx.vulcanize.nameservice.v1beta1.MsgSetRecordResponse.deserialize(responseBytes);
+  // const msgSetRecordResponse = registryTx.vulcanize.registry.v1beta1.MsgSetRecordResponse.deserialize(responseBytes);
   // return msgSetRecordResponse.toObject();
-
   // Workaround as proto based decoding is not working.
   const [_, id] = responseBytes.toString().split(';')
-
   return { id }
 }
 
