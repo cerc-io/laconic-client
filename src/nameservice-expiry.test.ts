@@ -40,7 +40,7 @@ const nameserviceExpiryTests = () => {
       fee
     )
 
-    const [record] = await registry.queryRecords({ type: 'watcher', version: watcher.record.version }, true);
+    const [record] = await registry.queryRecords({ type: watcher.record.type, version: watcher.record.version }, true);
     recordExpiryTime = new Date(record.expiryTime);
 
     const [bond] = await registry.getBondsByIds([bondId]);
@@ -63,7 +63,7 @@ const nameserviceExpiryTests = () => {
   });
 
   test('Check record expiry time', async() => {
-    const [record] = await registry.queryRecords({ type: 'watcher', version: watcher.record.version }, true);
+    const [record] = await registry.queryRecords({ type: watcher.record.type, version: watcher.record.version }, true);
     const updatedExpiryTime = new Date(record.expiryTime);
     expect(updatedExpiryTime.getTime()).toBeGreaterThan(recordExpiryTime.getTime());
     recordExpiryTime = updatedExpiryTime;
@@ -87,7 +87,7 @@ const nameserviceExpiryTests = () => {
   });
 
   test('Check record deleted without bond balance', async() => {
-    const records = await registry.queryRecords({ type: 'watcher', version: watcher.record.version }, true);
+    const records = await registry.queryRecords({ type: watcher.record.type, version: watcher.record.version }, true);
     expect(records).toHaveLength(0);
   })
 
