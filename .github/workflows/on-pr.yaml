@@ -1,0 +1,35 @@
+name: Docker Build
+
+on: [pull_request]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+      - run: yarn
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_PACKAGES }}
+      - name: Docker Login
+          run: echo ${{ secrets.GITEA_TOKEN }} | docker login https://git.vdb.to -u cerccicd --password-stdin
+      - name: Docker Pull laconicd latest
+          run: docker pull git.vdb.to/cerc-io/laconicd/laconicd:latest
+      - name: Start laconicd container
+        - run: docker run git.vdb.to/cerc-io/laconicd/laconicd:latest
+      - name: Run tests
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_PACKAGES }}
+        run: |
+          yarn build
+          yarn test
+      - name: Stop laconicd container
+          - run: docker stop git.vdb.to/cerc-io/laconicd/laconicd:latest
