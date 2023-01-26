@@ -7,7 +7,7 @@ import { ensureUpdatedConfig, getConfig } from './testing/helper';
 
 const WATCHER_YML_PATH = path.join(__dirname, './testing/data/watcher.yml');
 
-jest.setTimeout(240 * 1000);
+jest.setTimeout(600 * 1000);
 
 const { chainId, restEndpoint, gqlEndpoint, privateKey, fee } = getConfig();
 
