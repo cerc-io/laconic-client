@@ -74,14 +74,27 @@ export class Record {
       break;
 
       case "Binary": {
-        var binaryAttr= new attributes.vulcanize.registry.v1beta1.Binary(this._record)
+        var binaryAttr= new attributes.vulcanize.registry.v1beta1.Binary({
+          hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.hash_reference),
+          targeted_arch: this._record.targeted_arch,
+          runtime_version: this._record.runtime_version,
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          version: this._record.version,
+          type: this._record.type,
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.Binary",
           value: binaryAttr.serialize()
         })
       }
       case "DockerImage": {
-        var dockerAttr= new attributes.vulcanize.registry.v1beta1.DockerImage(this._record)
+        var dockerAttr= new attributes.vulcanize.registry.v1beta1.DockerImage({
+          image_id: this._record.image_id,
+          binary_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.binary_reference),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          version: this._record.version,
+          type: this._record.type,
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.DockerImage",
           value: dockerAttr.serialize()
@@ -90,7 +103,19 @@ export class Record {
       break;
 
       case "WatcherRegistrationRecord": {
-        var watcherAttr= new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord(this._record)
+        var watcherAttr= new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord({
+          metadata: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WatcherMetadata({
+            version: this._record.metadata.version,
+            chain_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.metadata.chain_reference),
+          }),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          wasm: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WASMBinary({
+            hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.wasm.hash_reference),
+            metadata: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WASMBinaryMetadata(this._record.wasm.metadata),
+          }),
+          version: this._record.version,
+          type: this._record.type,
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.WatcherRegistrationRecord",
           value: watcherAttr.serialize()
@@ -99,7 +124,13 @@ export class Record {
       break;
 
       case "ResponderContract": {
-        var respAttr= new attributes.vulcanize.registry.v1beta1.ResponderContract(this._record)
+        var respAttr= new attributes.vulcanize.registry.v1beta1.ResponderContract({
+          service_provider_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.service_provider_ref),
+          auction_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.auction_ref),
+          watcher_ref:  new attributes.vulcanize.registry.v1beta1.HashReference(this._record.watcher_ref),
+          version: this._record.version,
+          type: this._record.type,
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.ResponderContract",
           value: respAttr.serialize()
@@ -108,7 +139,13 @@ export class Record {
       break;
 
       case "JSPackage": {
-        var jsAttr= new attributes.vulcanize.registry.v1beta1.JSPackage(this._record)
+        var jsAttr= new attributes.vulcanize.registry.v1beta1.JSPackage({
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          js_package_ref:  new attributes.vulcanize.registry.v1beta1.HashReference(this._record.js_package_ref),
+          version: this._record.version,
+          type: this._record.type,
+          name: this._record.name,
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.JSPackage",
           value: jsAttr.serialize()
@@ -117,7 +154,15 @@ export class Record {
       break;
 
       case "ChainRegistrationRecord": {
-        var chainAttr= new attributes.vulcanize.registry.v1beta1.ChainRegistrationRecord(this._record)
+        var chainAttr= new attributes.vulcanize.registry.v1beta1.ChainRegistrationRecord({
+          name: this._record.name,
+          ipld_types: this._record.ipld_types,
+          type: this._record.type,
+          version: this._record.verison,
+          chain_id: this._record.chain_id,
+          network_id: this._record.network_id,
+          genesis_hash: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.genesis_hash),
+        })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.ChainRegistrationRecord",
           value: chainAttr.serialize()
