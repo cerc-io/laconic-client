@@ -3,7 +3,7 @@ import path from 'path';
 import { Registry } from './index';
 import { ensureUpdatedConfig, getConfig } from './testing/helper';
 
-const WATCHER_YML_PATH = path.join(__dirname, './testing/examples/website_registration_example.yml');
+const WATCHER_YML_PATH = path.join(__dirname, './testing/examples/watcher_registraion_example.yml');
 
 const { chainId, restEndpoint, gqlEndpoint, privateKey, fee } = getConfig();
 
@@ -32,63 +32,63 @@ const bondTests = () => {
     registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   });
 
-  // test('Create bond.', async () => {
-  //   bondId1 = await registry.getNextBondId(privateKey);
-  //   expect(bondId1).toBeDefined();
-  //   await registry.createBond({ denom: 'aphoton', amount: '1000000000' }, privateKey, fee);
-  // })
+  test('Create bond.', async () => {
+    bondId1 = await registry.getNextBondId(privateKey);
+    expect(bondId1).toBeDefined();
+    await registry.createBond({ denom: 'aphoton', amount: '1000000000' }, privateKey, fee);
+  })
 
-  // test('Get bond by ID.', async () => {
-  //   const [bond] = await registry.getBondsByIds([bondId1]);
-  //   expect(bond).toBeDefined();
-  //   expect(bond.id).toBe(bondId1);
-  //   expect(bond.balance).toHaveLength(1);
-  //   expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000000' });
-  //   bondOwner = bond.owner;
-  // });
+  test('Get bond by ID.', async () => {
+    const [bond] = await registry.getBondsByIds([bondId1]);
+    expect(bond).toBeDefined();
+    expect(bond.id).toBe(bondId1);
+    expect(bond.balance).toHaveLength(1);
+    expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000000' });
+    bondOwner = bond.owner;
+  });
 
-  // test('Query bonds.', async () => {
-  //   const bonds = await registry.queryBonds();
-  //   expect(bonds).toBeDefined();
-  //   const bond = bonds.filter((bond: any) => bond.id === bondId1);
-  //   expect(bond).toBeDefined();
-  // });
+  test('Query bonds.', async () => {
+    const bonds = await registry.queryBonds();
+    expect(bonds).toBeDefined();
+    const bond = bonds.filter((bond: any) => bond.id === bondId1);
+    expect(bond).toBeDefined();
+  });
 
-  // test('Query bonds by owner.', async () => {
-  //   const bonds = await registry.queryBonds({ owner: bondOwner });
-  //   expect(bonds).toBeDefined();
-  //   const bond = bonds.filter((bond: any) => bond.id === bondId1);
-  //   expect(bond).toBeDefined();
-  // });
+  test('Query bonds by owner.', async () => {
+    const bonds = await registry.queryBonds({ owner: bondOwner });
+    expect(bonds).toBeDefined();
+    const bond = bonds.filter((bond: any) => bond.id === bondId1);
+    expect(bond).toBeDefined();
+  });
 
-  // test('Refill bond.', async () => {
-  //   await registry.refillBond({ id: bondId1, denom: 'aphoton', amount: '500' }, privateKey, fee);
+  test('Refill bond.', async () => {
+    await registry.refillBond({ id: bondId1, denom: 'aphoton', amount: '500' }, privateKey, fee);
 
-  //   const [bond] = await registry.getBondsByIds([bondId1]);
-  //   expect(bond).toBeDefined();
-  //   expect(bond.id).toBe(bondId1);
-  //   expect(bond.balance).toHaveLength(1);
-  //   expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000500' });
-  // });
+    const [bond] = await registry.getBondsByIds([bondId1]);
+    expect(bond).toBeDefined();
+    expect(bond.id).toBe(bondId1);
+    expect(bond.balance).toHaveLength(1);
+    expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000500' });
+  });
 
-  // test('Withdraw bond.', async () => {
-  //   await registry.withdrawBond({ id: bondId1, denom: 'aphoton', amount: '500' }, privateKey, fee);
+  test('Withdraw bond.', async () => {
+    await registry.withdrawBond({ id: bondId1, denom: 'aphoton', amount: '500' }, privateKey, fee);
 
-  //   const [bond] = await registry.getBondsByIds([bondId1]);
-  //   expect(bond).toBeDefined();
-  //   expect(bond.id).toBe(bondId1);
-  //   expect(bond.balance).toHaveLength(1);
-  //   expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000000' });
-  // });
+    const [bond] = await registry.getBondsByIds([bondId1]);
+    expect(bond).toBeDefined();
+    expect(bond.id).toBe(bondId1);
+    expect(bond.balance).toHaveLength(1);
+    expect(bond.balance[0]).toEqual({ type: 'aphoton', quantity: '1000000000' });
+  });
 
-  // test('Cancel bond.', async () => {
-  //   await registry.cancelBond({ id: bondId1 }, privateKey, fee);
+  test('Cancel bond.', async () => {
+    await registry.cancelBond({ id: bondId1 }, privateKey, fee);
 
-  //   const [bond] = await registry.getBondsByIds([bondId1]);
-  //   expect(bond.id).toBe("");
-  //   expect(bond.owner).toBe("");
-  //   expect(bond.balance).toHaveLength(0);
-  // });
+    const [bond] = await registry.getBondsByIds([bondId1]);
+    expect(bond.id).toBe("");
+    expect(bond.owner).toBe("");
+    expect(bond.balance).toHaveLength(0);
+  });
 
   test('Associate/Dissociate bond.', async () => {
     bondId1 = await registry.getNextBondId(privateKey);
