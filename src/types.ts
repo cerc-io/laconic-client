@@ -32,12 +32,100 @@ export class Record {
 
     var a = new any.google.protobuf.Any()
 
-    if (this._record.type=="WebsiteRegistrationRecord"){
-      var attr= new attributes.vulcanize.registry.v1beta1.WebsiteRegistrationRecord(this._record)
-      a= new any.google.protobuf.Any({
-        type_url: "/vulcanize.registry.v1beta1.WebsiteRegistrationRecord",
-        value: attr.serialize()
-      })
+    switch (this._record.type){
+      case "WebsiteRegistrationRecord": {
+        var webAttr= new attributes.vulcanize.registry.v1beta1.WebsiteRegistrationRecord({
+          url: this._record.url,
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          build_artifact_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.build_artifact_ref),
+          tls_cert_ref:new attributes.vulcanize.registry.v1beta1.HashReference(this._record.tls_cert_ref),
+          type: this._record.type,
+          version:this._record.version,
+        })
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.WebsiteRegistrationRecord",
+          value: webAttr.serialize()
+        })
+      };
+      break;
+
+      case "ServiceProviderRecord": {
+        var serAttr= new attributes.vulcanize.registry.v1beta1.ServiceProviderRecord({
+          bond_id:this._record.bond_id,
+          laconic_id:this._record.bond_id,
+          type:this._record.type,
+          version:this._record.version,
+          x500: new attributes.vulcanize.registry.v1beta1.ServiceProviderRecord.X500(this._record.x500)
+        })
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.ServiceProviderRecord",
+          value: serAttr.serialize()
+        })
+      };
+      break;
+      
+      case "GitRepository": {
+        var gitAttr= new attributes.vulcanize.registry.v1beta1.GitRepository(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.GitRepository",
+          value: gitAttr.serialize()
+        })
+      };
+      break;
+
+      case "Binary": {
+        var binaryAttr= new attributes.vulcanize.registry.v1beta1.Binary(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.Binary",
+          value: binaryAttr.serialize()
+        })
+      }
+      case "DockerImage": {
+        var dockerAttr= new attributes.vulcanize.registry.v1beta1.DockerImage(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.DockerImage",
+          value: dockerAttr.serialize()
+        })
+      };
+      break;
+
+      case "WatcherRegistrationRecord": {
+        var watcherAttr= new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.WatcherRegistrationRecord",
+          value: watcherAttr.serialize()
+        })
+      };
+      break;
+
+      case "ResponderContract": {
+        var respAttr= new attributes.vulcanize.registry.v1beta1.ResponderContract(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.ResponderContract",
+          value: respAttr.serialize()
+        })
+      };
+      break;
+
+      case "JSPackage": {
+        var jsAttr= new attributes.vulcanize.registry.v1beta1.JSPackage(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.JSPackage",
+          value: jsAttr.serialize()
+        })
+      };
+      break;
+
+      case "ChainRegistrationRecord": {
+        var chainAttr= new attributes.vulcanize.registry.v1beta1.ChainRegistrationRecord(this._record)
+        a= new any.google.protobuf.Any({
+          type_url: "/vulcanize.registry.v1beta1.ChainRegistrationRecord",
+          value: chainAttr.serialize()
+        })
+      };
+      break;
+
+      default: 
     }
     return a
   }
