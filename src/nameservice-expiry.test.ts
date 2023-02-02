@@ -62,39 +62,40 @@ const nameserviceExpiryTests = () => {
     setTimeout(done, 60 * 1000);
   });
 
-  // test('Check record expiry time', async() => {
-  //   const [record] = await registry.queryRecords({ type: 'WebsiteRegistrationRecord', version: watcher.record.version }, true);
-  //   const updatedExpiryTime = new Date();
-  //   expect(updatedExpiryTime.getTime()).toBeGreaterThan(recordExpiryTime.getTime());
-  //   recordExpiryTime = updatedExpiryTime;
-  // })
+  test('Check record expiry time', async() => {
+    const [record] = await registry.queryRecords({ type: 'WebsiteRegistrationRecord', version: watcher.record.version }, true);
+    const updatedExpiryTime = new Date();
+    expect(updatedExpiryTime.getTime()).toBeGreaterThan(recordExpiryTime.getTime());
+    recordExpiryTime = updatedExpiryTime;
+  })
 
-  // test('Check authority expiry time', async() => {
-  //   const [authority] = await registry.lookupAuthorities([authorityName]);
-  //   const updatedExpiryTime = new Date();
-  //   expect(updatedExpiryTime.getTime()).toBeGreaterThan(authorityExpiryTime.getTime());
-  //   authorityExpiryTime = updatedExpiryTime;
-  // })
+  test('Check authority expiry time', async() => {
+    const [authority] = await registry.lookupAuthorities([authorityName]);
+    const updatedExpiryTime = new Date();
+    expect(updatedExpiryTime.getTime()).toBeGreaterThan(authorityExpiryTime.getTime());
+    authorityExpiryTime = updatedExpiryTime;
+  })
 
-  // test('Check bond balance', async () => {
-  //   const [bond] = await registry.getBondsByIds([bondId]);
-  //   expect(bond).toBeDefined();
-  //   expect(bond.balance).toBe('2000000');
-  // })
+  test('Check bond balance', async () => {
+    const [bond] = await registry.getBondsByIds([bondId]);
+    console.log(bond)
+    expect(bond).toBeDefined();
+    expect(bond.balance).toHaveLength(0);
+  })
 
-  // test('Wait for expiry duration', (done) => {
-  //   setTimeout(done, 60 * 1000);
-  // });
-  //
-  // test('Check record deleted without bond balance', async() => {
-  //   const records = await registry.queryRecords({ type: 'WebsiteRegistrationRecord', version: watcher.record.version }, true);
-  //   expect(records).toHaveLength(0);
-  // })
-  //
-  // test('Check authority expired without bond balance', async() => {
-  //   const [authority] = await registry.lookupAuthorities([authorityName]);
-  //   expect(authority.status).toBe('expired');
-  // })
+  test('Wait for expiry duration', (done) => {
+    setTimeout(done, 60 * 1000);
+  });
+
+  test('Check record deleted without bond balance', async() => {
+    const records = await registry.queryRecords({ type: 'WebsiteRegistrationRecord', version: watcher.record.version }, true);
+    expect(records).toHaveLength(0);
+  })
+
+  test('Check authority expired without bond balance', async() => {
+    const [authority] = await registry.lookupAuthorities([authorityName]);
+    expect(authority.status).toBe('expired');
+  })
 }
 
 if (!process.env.TEST_NAMESERVICE_EXPIRY) {
@@ -104,7 +105,7 @@ if (!process.env.TEST_NAMESERVICE_EXPIRY) {
   /**
     Running these tests requires timers to be set. In laconicd repo run:
 
-    TEST_NAMESERVICE_EXPIRY=true ./init.sh
+    TEST_REGISTRY_EXPIRY=true ./init.sh
 
 
     Run tests:
