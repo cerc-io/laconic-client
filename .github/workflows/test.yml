@@ -27,7 +27,7 @@ jobs:
         run: docker build -t cerc-io/laconic-sdk-tester:local-test -f laconicd/tests/sdk_tests/Dockerfile-sdk .
       - name: start containers
         working-directory: laconicd/tests/sdk_tests
-        run: docker compose up -d laconicd
+        run: docker compose up -d
       - name: run ALL tests
         run: |
           cd laconicd/tests/sdk_tests
