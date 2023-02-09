@@ -29,6 +29,7 @@ jobs:
         working-directory: laconicd/tests/sdk_tests
         run: docker compose up -d
       - name: run ALL tests
+        working-directory: laconicd/tests/sdk_tests
         run: |
           laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
           cosmos_chain_id=laconic_9000-1
