@@ -37,4 +37,4 @@ jobs:
           laconicd_gql_endpoint=http://laconicd:9473/api
           sleep 30s
           cd ../../../
-          COSMOS_CHAIN_ID=${cosmos_chain_id} LACONICD_REST_ENDPOINT=${laconicd_rest_endpoint} LACONICD_GQL_ENDPOINT=${laconicd_gql_endpoint} PRIVATE_KEY=${laconicd_key} yarn test
+          docker compose exec sdk-test-runner sh -c "COSMOS_CHAIN_ID=${cosmos_chain_id} LACONICD_REST_ENDPOINT=${laconicd_rest_endpoint} LACONICD_GQL_ENDPOINT=${laconicd_gql_endpoint} PRIVATE_KEY=${laconicd_key} yarn test"
