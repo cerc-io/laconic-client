@@ -28,16 +28,45 @@ jobs:
       - name: start containers
         working-directory: laconicd/tests/sdk_tests
         run: docker compose up -d
-      - name: run ALL tests
+      - name: run basic tests
         working-directory: laconicd/tests/sdk_tests
         run: |
-          pwd
-          ls -tla
           laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
-          echo "KEY"
-          echo "${laconicd_key}"
           cosmos_chain_id=laconic_9000-1
           laconicd_rest_endpoint=http://laconicd:1317
           laconicd_gql_endpoint=http://laconicd:9473/api
           sleep 30s
           docker compose exec sdk-test-runner sh -c "COSMOS_CHAIN_ID=${cosmos_chain_id} LACONICD_REST_ENDPOINT=${laconicd_rest_endpoint} LACONICD_GQL_ENDPOINT=${laconicd_gql_endpoint} PRIVATE_KEY=${laconicd_key} yarn test"
+      - name: stop containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose down
+      - name: start auction containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose -f docker-compose-auctions.yml up -d
+      - name: run auction tests
+        working-directory: laconicd/tests/sdk_tests
+        run: |
+          laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
+          cosmos_chain_id=laconic_9000-1
+          laconicd_rest_endpoint=http://laconicd:1317
+          laconicd_gql_endpoint=http://laconicd:9473/api
+          sleep 30s
+          docker compose exec sdk-test-runner sh -c "COSMOS_CHAIN_ID=${cosmos_chain_id} LACONICD_REST_ENDPOINT=${laconicd_rest_endpoint} LACONICD_GQL_ENDPOINT=${laconicd_gql_endpoint} PRIVATE_KEY=${laconicd_key} yarn test:auctions"
+      - name: start containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose down
+      - name: start containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose -f docker-compose-nameservice.yml up -d
+      - name: run nameservice expiry tests
+        working-directory: laconicd/tests/sdk_tests
+        run: |
+          laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
+          cosmos_chain_id=laconic_9000-1
+          laconicd_rest_endpoint=http://laconicd:1317
+          laconicd_gql_endpoint=http://laconicd:9473/api
+          sleep 30s
+          docker compose exec sdk-test-runner sh -c "COSMOS_CHAIN_ID=${cosmos_chain_id} LACONICD_REST_ENDPOINT=${laconicd_rest_endpoint} LACONICD_GQL_ENDPOINT=${laconicd_gql_endpoint} PRIVATE_KEY=${laconicd_key} yarn test:nameservice-expiry"
+      - name: stop nameservice containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose down
