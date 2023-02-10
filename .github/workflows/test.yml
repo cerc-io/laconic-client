@@ -34,6 +34,8 @@ jobs:
           pwd
           ls -tla
           laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
+          echo "KEY"
+          echo "${laconicd_key}"
           cosmos_chain_id=laconic_9000-1
           laconicd_rest_endpoint=http://laconicd:1317
           laconicd_gql_endpoint=http://laconicd:9473/api
