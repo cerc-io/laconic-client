@@ -52,7 +52,7 @@ export class Record {
       case "ServiceProviderRecord": {
         var serAttr= new attributes.vulcanize.registry.v1beta1.ServiceProviderRecord({
           bond_id:this._record.bond_id,
-          laconic_id:this._record.bond_id,
+          laconic_id:this._record.laconic_id,
           type:this._record.type,
           version:this._record.version,
           x500: new attributes.vulcanize.registry.v1beta1.ServiceProviderRecord.X500(this._record.x500)
@@ -86,7 +86,9 @@ export class Record {
           type_url: "/vulcanize.registry.v1beta1.Binary",
           value: binaryAttr.serialize()
         })
-      }
+      };
+      break;
+
       case "DockerImage": {
         var dockerAttr= new attributes.vulcanize.registry.v1beta1.DockerImage({
           image_id: this._record.image_id,
@@ -158,7 +160,7 @@ export class Record {
           name: this._record.name,
           ipld_types: this._record.ipld_types,
           type: this._record.type,
-          version: this._record.verison,
+          version: this._record.version,
           chain_id: this._record.chain_id,
           network_id: this._record.network_id,
           genesis_hash: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.genesis_hash),
