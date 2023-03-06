@@ -17,7 +17,7 @@ jobs:
           path: "./laconicd/"
           repository: cerc-io/laconicd
           fetch-depth: 0
-          ref: main
+          ref: feature_test_record_types
       - name: Environment
         run: ls -tlh && env
       - name: build containers scripts
