@@ -37,7 +37,7 @@ export namespace cosmos.base.query.v1beta1 {
             }
         }
         get key() {
-            return pb_1.Message.getFieldWithDefault(this, 1, new Uint8Array()) as Uint8Array;
+            return pb_1.Message.getFieldWithDefault(this, 1, new Uint8Array(0)) as Uint8Array;
         }
         set key(value: Uint8Array) {
             pb_1.Message.setField(this, 1, value);
@@ -184,7 +184,7 @@ export namespace cosmos.base.query.v1beta1 {
             }
         }
         get next_key() {
-            return pb_1.Message.getFieldWithDefault(this, 1, new Uint8Array()) as Uint8Array;
+            return pb_1.Message.getFieldWithDefault(this, 1, new Uint8Array(0)) as Uint8Array;
         }
         set next_key(value: Uint8Array) {
             pb_1.Message.setField(this, 1, value);
