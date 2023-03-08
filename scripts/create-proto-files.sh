@@ -9,4 +9,4 @@ protoc \
 --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
 --ts_out=$DEST_TS \
 --proto_path=$I \
-$(find $(pwd)/proto/vulcanize -iname "*.proto")
+$(find $(pwd)/proto/vulcanize $(pwd)/proto/ethermint -iname "*.proto")

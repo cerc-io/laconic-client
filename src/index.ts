@@ -7,11 +7,12 @@ import {
   createMessageSend,
   MessageSendParams
 } from '@tharsis/transactions'
+import { ethers } from 'ethers';
 
 import { RegistryClient } from "./registry-client";
 import { Account } from "./account";
 import { createTransaction } from "./txbuilder";
-import { Payload, Record } from './types';
+import { EthereumTxData, Payload, Record } from './types';
 import { Util } from './util';
 import {
   createTxMsgAssociateBond,
@@ -51,6 +52,7 @@ import {
   MessageMsgCommitBid,
   MessageMsgRevealBid
 } from './messages/auction';
+import { createTxMsgEthereumTx, MessageMsgEthereumTx } from './messages/evm';
 
 export const DEFAULT_CHAIN_ID = 'laconic_9000-1';
 
@@ -457,6 +459,31 @@ export class Registry {
     const sender = await this._getSender(account);
 
     const msg = createTxMsgDeleteName(this._chain, sender, fee, '', params)
+    result = await this._submitTx(msg, privateKey, sender);
+
+    return parseTxResponse(result);
+  }
+
+  /**
+   * Send ethereum transaction.
+   */
+  async sendEthTx(
+    { tx, from }: { tx: ethers.Transaction, from: string },
+    privateKey: string,
+    fee: Fee
+  ) {
+    let result;
+    const account = new Account(Buffer.from(privateKey, 'hex'));
+    console.log('account.registryAddress', account.registryAddress);
+    const sender = await this._getSender(account);
+
+    const msgParams = {
+      data: new EthereumTxData(tx),
+      hash: tx.hash!,
+      from
+    }
+
+    const msg = createTxMsgEthereumTx(this._chain, sender, fee, '', msgParams)
     result = await this._submitTx(msg, privateKey, sender);
 
     return parseTxResponse(result);

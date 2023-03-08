@@ -1,9 +1,11 @@
 import assert from 'assert';
 import { Validator } from 'jsonschema';
+import { ethers } from 'ethers';
 
 import RecordSchema from './schema/record.json';
 import { Util } from './util';
 import * as attributes from './proto/vulcanize/registry/v1beta1/attributes';
+import * as evmTx from './proto/ethermint/evm/v1/tx';
 import * as any from './proto/google/protobuf/any';
 
 /**
@@ -138,5 +140,35 @@ export class Payload {
       'record': this._record.serialize(),
       'signatures': this._signatures.map(s => s.serialize())
     }
+  }
+}
+
+export class EthereumTxData {
+  _tx: ethers.Transaction
+
+  constructor (tx: ethers.Transaction) {
+    this._tx = tx
+  }
+
+  serialize () {
+    var data= new evmTx.ethermint.evm.v1.LegacyTx({
+      nonce: this._tx.nonce,
+      data: ethers.utils.arrayify(this._tx.data),
+      gas: this._tx.gasLimit.toNumber(),
+      gas_price: this._tx.gasPrice?.toString(),
+      r: ethers.utils.arrayify(this._tx.r!),
+      s: ethers.utils.arrayify(this._tx.s!),
+      
+      // TODO: Check if need to put in array
+      v: ethers.utils.arrayify([this._tx.v!]),
+
+      to: this._tx.to,
+      value: this._tx.value.toString()
+    })
+    
+    return new any.google.protobuf.Any({
+      type_url: "/ethermint.evm.v1.TxData",
+      value: data.serialize()
+    });
   }
 }
