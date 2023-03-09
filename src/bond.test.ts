@@ -3,7 +3,7 @@ import path from 'path';
 import { Registry } from './index';
 import { ensureUpdatedConfig, getConfig } from './testing/helper';
 
-const WATCHER_YML_PATH = path.join(__dirname, './testing/examples/watcher_registraion_example.yml');
+const WATCHER_YML_PATH = path.join(__dirname, './testing/examples/watcher_registration_example.yml');
 
 const { chainId, restEndpoint, gqlEndpoint, privateKey, fee } = getConfig();
 

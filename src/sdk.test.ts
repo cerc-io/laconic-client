@@ -46,7 +46,7 @@ describe('Querying', () => {
 
   test('Query records by reference.', async () => {
     const { ref } = watcher.record.repo_reference;
-    const records = await registry.queryRecords({ "repo_reference---ref---": ref}, true);
+    const records = await registry.queryRecords({ "repo_reference---/---": ref}, true);
     expect(records.length).toBeGreaterThanOrEqual(1);
 
     const { attributes: { repo_reference: {ref: record_repo_registration_record_cid}  } } = records[0];
@@ -74,7 +74,7 @@ describe('Querying', () => {
     const [record] = await registry.getRecordsByIds([watcher.id], true);
     expect(record.id).toBe(watcher.id);
     // temp fix
-    expect(record.attributes.repo_reference.ref).toBeDefined();
-    expect(record.attributes.repo_reference.ref).toHaveLength(46);
+    expect(record.attributes.repo_reference["/"]).toBeDefined();
+    expect(record.attributes.repo_reference["/"]).toHaveLength(46);
   });
 });

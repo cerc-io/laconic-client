@@ -36,9 +36,9 @@ export class Record {
       case "WebsiteRegistrationRecord": {
         var webAttr= new attributes.vulcanize.registry.v1beta1.WebsiteRegistrationRecord({
           url: this._record.url,
-          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
-          build_artifact_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.build_artifact_ref),
-          tls_cert_ref:new attributes.vulcanize.registry.v1beta1.HashReference(this._record.tls_cert_ref),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.repo_reference["/"],}),
+          build_artifact_ref: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.build_artifact_ref["/"]}),
+          tls_cert_ref:new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.tls_cert_ref["/"]}),
           type: this._record.type,
           version:this._record.version,
         })
@@ -75,10 +75,10 @@ export class Record {
 
       case "Binary": {
         var binaryAttr= new attributes.vulcanize.registry.v1beta1.Binary({
-          hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.hash_reference),
+          hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.hash_reference["/"]}),
           targeted_arch: this._record.targeted_arch,
           runtime_version: this._record.runtime_version,
-          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.repo_reference["/"]}),
           version: this._record.version,
           type: this._record.type,
         })
@@ -92,8 +92,8 @@ export class Record {
       case "DockerImage": {
         var dockerAttr= new attributes.vulcanize.registry.v1beta1.DockerImage({
           image_id: this._record.image_id,
-          binary_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.binary_reference),
-          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          binary_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.binary_reference["/"]}),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.repo_reference["/"]}),
           version: this._record.version,
           type: this._record.type,
         })
@@ -108,11 +108,11 @@ export class Record {
         var watcherAttr= new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord({
           metadata: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WatcherMetadata({
             version: this._record.metadata.version,
-            chain_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.metadata.chain_reference),
+            chain_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.metadata.chain_reference["/"]}),
           }),
-          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.repo_reference["/"]}),
           wasm: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WASMBinary({
-            hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.wasm.hash_reference),
+            hash_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.wasm.hash_reference["/"]}),
             metadata: new attributes.vulcanize.registry.v1beta1.WatcherRegistrationRecord.WASMBinaryMetadata(this._record.wasm.metadata),
           }),
           version: this._record.version,
@@ -127,9 +127,9 @@ export class Record {
 
       case "ResponderContract": {
         var respAttr= new attributes.vulcanize.registry.v1beta1.ResponderContract({
-          service_provider_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.service_provider_ref),
-          auction_ref: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.auction_ref),
-          watcher_ref:  new attributes.vulcanize.registry.v1beta1.HashReference(this._record.watcher_ref),
+          service_provider_ref: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.service_provider_ref["/"]}),
+          auction_ref: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.auction_ref["/"]}),
+          watcher_ref:  new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.watcher_ref["/"]}),
           version: this._record.version,
           type: this._record.type,
         })
@@ -142,8 +142,8 @@ export class Record {
 
       case "JSPackage": {
         var jsAttr= new attributes.vulcanize.registry.v1beta1.JSPackage({
-          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.repo_reference),
-          js_package_ref:  new attributes.vulcanize.registry.v1beta1.HashReference(this._record.js_package_ref),
+          repo_reference: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.repo_reference["/"]}),
+          js_package_ref:  new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.js_package_ref["/"]}),
           version: this._record.version,
           type: this._record.type,
           name: this._record.name,
@@ -163,7 +163,7 @@ export class Record {
           version: this._record.version,
           chain_id: this._record.chain_id,
           network_id: this._record.network_id,
-          genesis_hash: new attributes.vulcanize.registry.v1beta1.HashReference(this._record.genesis_hash),
+          genesis_hash: new attributes.vulcanize.registry.v1beta1.HashReference({ref:this._record.genesis_hash["/"]}),
         })
         a= new any.google.protobuf.Any({
           type_url: "/vulcanize.registry.v1beta1.ChainRegistrationRecord",
