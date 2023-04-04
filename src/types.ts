@@ -172,7 +172,11 @@ export class Record {
       };
       break;
 
-      default: 
+      default: {
+        const err = new Error("Unsupported reocrd type");
+        console.error(err);
+        throw err;
+      };
     }
     return a
   }
