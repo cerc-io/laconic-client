@@ -10,21 +10,21 @@ export class Util {
   /**
    * Sorts JSON object.
    */
-  static sortJSON(object: any) {
-    if (object instanceof Array) {
-      for (let i = 0; i < object.length; i++) {
-        object[i] = Util.sortJSON(object[i]);
+  static sortJSON(obj: any) {
+    if (obj instanceof Array) {
+      for (let i = 0; i < obj.length; i++) {
+        obj[i] = Util.sortJSON(obj[i]);
       }
-      return object;
+      return obj;
     }
-    if (typeof object !== 'object' || object === null) return object;
+    if (typeof obj !== 'object' || obj === null) return obj;
 
-    let keys = Object.keys(object);
+    let keys = Object.keys(obj);
     keys = keys.sort();
     const newObject: {[key: string]: any} = {};
 
     for (let i = 0; i < keys.length; i++) {
-      newObject[keys[i]] = Util.sortJSON(object[keys[i]]);
+      newObject[keys[i]] = Util.sortJSON(obj[keys[i]]);
     }
     return newObject;
   }
@@ -32,29 +32,39 @@ export class Util {
   /**
    * Marshal object into gql 'attributes' variable.
    */
-  static toGQLAttributes(object: any) {
+  static toGQLAttributes(obj: any) {
+    console.log("[DEBUG] toGQLAttributes", obj);
     const vars: any[] = [];
-
-    Object.keys(object).forEach(key => {
-      let type: string = typeof object[key];
-      if (object[key] === null) {
-        vars.push({ key, value: { 'null': true } });
-      } else if (type === 'number') {
-        type = (object[key] % 1 === 0) ? 'int' : 'float';
-        vars.push({ key, value: { [type]: object[key] } });
-      } else if (type === 'string') {
-        vars.push({ key, value: { 'string': object[key] } });
-      } else if (type === 'boolean') {
-        vars.push({ key, value: { 'boolean': object[key] } });
-      } else if (type === 'object') {
-        const nestedObject = object[key];
-        if (nestedObject['/'] !== undefined) {
-          vars.push({ key, value: { 'reference': { id: nestedObject['/'] } } });
-        }
-      }
+    Object.keys(obj).forEach(key => {
+      vars.push({ key, value: this.toGQLValue(obj[key]) });
     });
-
     return vars;
+  }
+
+  static toGQLValue(obj: any) {
+      if (obj === null) {
+        return null;
+      }
+      let type: string = typeof obj;
+      switch (type) {
+        case 'number':
+          type = (obj % 1 === 0) ? 'int' : 'float';
+          return { [type]: obj };
+        case 'string':
+          return { 'string': obj };
+        case 'boolean':
+          return { 'boolean': obj };
+        case 'object':
+          if (obj['/'] !== undefined) {
+            return { 'link': obj['/']  };
+          }
+          if (obj instanceof Array) {
+            return { 'array': obj };
+          }
+          return { 'map': obj };
+        default:
+          throw new Error(`Unknown object type '${type}': ${obj}`);
+      }
   }
 
   /**
@@ -64,24 +74,20 @@ export class Util {
     const res: {[key: string]: any} = {};
 
     attributes.forEach(attr => {
-      if (attr.value.null) {
-        res[attr.key] = null;
-      } else if (attr.value.json) {
-        res[attr.key] = JSON.parse(attr.value.json);
-      } else if (attr.value.reference) {
-        // Convert GQL reference to IPLD style link.
-        const ref = attr.value.reference;
-        res[attr.key] = { '/': ref.id };
-      } else {
-        const { values, null: n, ...types } = attr.value;
-        const value = Object.values(types).find(v => v !== null);
-        res[attr.key] = value;
-      }
+      res[attr.key] = this.fromGQLValue(attr.value);
     });
 
     return res;
   }
 
+  static fromGQLValue(obj: any) {
+    const present = Object.keys(obj).find(k => obj[k] !== null);
+    if (present === undefined) {
+      throw new Error('Object has no non-null values');
+    }
+    return obj[present];
+  }
+    
   /**
    * Get record content ID.
    */

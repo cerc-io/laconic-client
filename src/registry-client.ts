@@ -10,15 +10,14 @@ const attributeField = `
   attributes {
     key
     value {
-      null
-      int
-      float
-      string
-      boolean
-      json
-      reference {
-        id
-      }
+      ... on BooleanValue { bool: value }
+      ... on IntValue { int: value }
+      ... on FloatValue { float: value }
+      ... on StringValue { string: value }
+      ... on BytesValue { bytes: value }
+      ... on LinkValue { link: value }
+      ... on ArrayValue { array: value { __typename } }
+      ... on MapValue { map: value { key mapping: value { __typename } } }
     }
   }
 `;
@@ -257,9 +256,11 @@ export class RegistryClient {
       attributes: Util.toGQLAttributes(attributes),
       all
     };
+    console.debug("[DEBUG] variables", variables);
 
     let result = (await this._graph(query)(variables))['queryRecords'];
     result = RegistryClient.prepareAttributes('attributes')(result);
+    console.debug("[DEBUG] prepared result", result);
 
     return result;
   }
