@@ -33,7 +33,6 @@ export class Util {
    * Marshal object into gql 'attributes' variable.
    */
   static toGQLAttributes(obj: any) {
-    console.log("[DEBUG] toGQLAttributes", obj);
     const vars: any[] = [];
     Object.keys(obj).forEach(key => {
       vars.push({ key, value: this.toGQLValue(obj[key]) });

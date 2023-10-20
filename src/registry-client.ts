@@ -256,11 +256,9 @@ export class RegistryClient {
       attributes: Util.toGQLAttributes(attributes),
       all
     };
-    console.debug("[DEBUG] variables", variables);
 
     let result = (await this._graph(query)(variables))['queryRecords'];
     result = RegistryClient.prepareAttributes('attributes')(result);
-    console.debug("[DEBUG] prepared result", result);
 
     return result;
   }
