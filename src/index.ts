@@ -54,7 +54,7 @@ import {
 
 export const DEFAULT_CHAIN_ID = 'laconic_9000-1';
 
-const DEFAULT_WRITE_ERROR = 'Unable to write to laconicd.';
+const DEFAULT_WRITE_ERROR = 'Unable to write to laconicd';
 
 // Parse Tx response from cosmos-sdk.
 export const parseTxResponse = (result: any, parseResponse?: (data: string) => any) => {
@@ -117,7 +117,8 @@ export class Registry {
       console.error(error)
     }
 
-    return errorMessage || DEFAULT_WRITE_ERROR;
+    const [lastErrorLine] = error.split("\n").slice(-1);
+    return `${errorMessage || DEFAULT_WRITE_ERROR}: ${lastErrorLine}`;
   }
 
   constructor(gqlUrl: string, restUrl: string = "", chainId: string = DEFAULT_CHAIN_ID) {

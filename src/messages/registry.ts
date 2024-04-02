@@ -81,10 +81,10 @@ export const parseMsgSetRecordResponse = (data: string) => {
 }
 
 export const NAMESERVICE_ERRORS = [
-  'Name already reserved.',
-  'Authority bond not found.',
-  'Name authority not found.',
-  'Access denied.',
+  'Name already reserved',
+  'Authority bond not found',
+  'Name authority not found',
+  'Access denied',
 ]
 
 export interface MessageMsgReserveAuthority {
